@@ -57,6 +57,12 @@ public class User extends DateAudit {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "user_favorites",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_id"))
+  private Set<Book> favorites = new HashSet<>();
+
   public User() {
 
   }
@@ -114,5 +120,17 @@ public class User extends DateAudit {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public Set<Book> getFavorites() {
+    return favorites;
+  }
+
+  public void setFavorites(Set<Book> favorites) {
+    this.favorites = favorites;
+  }
+
+  public void addToFavorites(Book book) {
+    favorites.add(book);
   }
 }
