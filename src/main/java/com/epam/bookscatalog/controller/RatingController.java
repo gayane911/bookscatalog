@@ -1,14 +1,10 @@
 package com.epam.bookscatalog.controller;
 
-import com.epam.bookscatalog.model.Author;
-import com.epam.bookscatalog.payload.ApiResponse;
-import com.epam.bookscatalog.payload.AuthorRequest;
+import com.epam.bookscatalog.dto.ApiMessageDto;
 import com.epam.bookscatalog.payload.RatingRequest;
-import com.epam.bookscatalog.repository.BookRepository;
 import com.epam.bookscatalog.repository.RatingRepository;
 import com.epam.bookscatalog.security.CurrentUser;
 import com.epam.bookscatalog.security.UserPrincipal;
-import com.epam.bookscatalog.service.AuthorService;
 import com.epam.bookscatalog.service.RatingService;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -43,7 +39,7 @@ public class RatingController {
   @PostMapping("/rating")
   //@PreAuthorize("hasRole('USER')")
   @RolesAllowed("ROLE_READER")
-  public ResponseEntity<ApiResponse> rate(@Valid @RequestBody RatingRequest ratingRequest,
+  public ResponseEntity<ApiMessageDto> rate(@Valid @RequestBody RatingRequest ratingRequest,
       @CurrentUser UserPrincipal currentUser) {
 
     ratingService.rate(ratingRequest, currentUser.getId());
@@ -54,15 +50,15 @@ public class RatingController {
         .buildAndExpand(author.getId()).toUri();*/
 
     return ResponseEntity/*.created(location)*/
-        .ok(new ApiResponse(true,
+        .ok(new ApiMessageDto(true,
             String.format("Book with id %s rated successfully", ratingRequest.getBookId())));
   }
 
   /*@GetMapping("/user/me")
   //@PreAuthorize("hasRole('READER')")
   @RolesAllowed({"ROLE_ADMIN", "ROLE_READER"})
-  public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-    UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(),
+  public UserSummaryDto getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+    UserSummaryDto userSummary = new UserSummaryDto(currentUser.getId(), currentUser.getUsername(),
         currentUser.getName(), currentUser.getRoles());
     return userSummary;
   }
@@ -84,21 +80,21 @@ public class RatingController {
   @GetMapping("/users/{username}")
   //@PreAuthorize("hasRole('ROLE_READER')")
   @RolesAllowed("ROLE_ADMIN")
-  public UserProfile getUserProfile(@CurrentUser UserPrincipal currentUser, @PathVariable(value = "username") String username) {
+  public UserProfileDto getUserProfile(@CurrentUser UserPrincipal currentUser, @PathVariable(value = "username") String username) {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
     //long pollCount = pollRepository.countByCreatedBy(user.getId());
     //long voteCount = voteRepository.countByUserId(user.getId());
 
-    UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(),
+    UserProfileDto userProfile = new UserProfileDto(user.getId(), user.getUsername(), user.getName(),
         user.getCreatedAt()*//*, pollCount, voteCount*//*);
 
     return userProfile;
   }*/
 
  /* @GetMapping("/users/{username}/polls")
-  public PagedResponse<BookResponse> getPollsCreatedBy(
+  public PagedResponse<BookDto> getPollsCreatedBy(
       @PathVariable(value = "username") String username,
       @CurrentUser UserPrincipal currentUser,
       @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
@@ -108,7 +104,7 @@ public class RatingController {
 
 
   /*@GetMapping("/users/{username}/votes")
-  public PagedResponse<BookResponse> getPollsVotedBy(
+  public PagedResponse<BookDto> getPollsVotedBy(
       @PathVariable(value = "username") String username,
       @CurrentUser UserPrincipal currentUser,
       @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,

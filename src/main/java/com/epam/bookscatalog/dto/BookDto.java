@@ -1,29 +1,17 @@
-package com.epam.bookscatalog.payload;
+package com.epam.bookscatalog.dto;
 
-import com.epam.bookscatalog.model.Author;
-import com.epam.bookscatalog.model.Rating;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import org.hibernate.validator.constraints.Range;
 
-public class BookResponse {
+public class BookDto {
   private Long id;
   private String isbn;
   private String title;
   private Date publishedDate;
-  private Set<CommentResponse> comments = new HashSet<>();
-  private Set<RatingResponse> ratings = new HashSet<>();
-  private Set<AuthorResponse> authors = new HashSet<>();
+  private Set<CommentDto> comments = new HashSet<>();
+  private Set<RatingDto> ratings = new HashSet<>();
+  private Set<String> authors = new HashSet<>();
   private Set<String> languages;
   private Set<String> genres;
   private Double overallRating;
@@ -68,27 +56,27 @@ public class BookResponse {
     this.rating = rating;
   }*/
 
-  public Set<RatingResponse> getRatings() {
+  public Set<RatingDto> getRatings() {
     return ratings;
   }
 
-  public void setRatings(Set<RatingResponse> ratings) {
+  public void setRatings(Set<RatingDto> ratings) {
     this.ratings = ratings;
   }
 
-  public Set<AuthorResponse> getAuthors() {
+  public Set<String> getAuthors() {
     return authors;
   }
 
-  public void setAuthors(Set<AuthorResponse> authors) {
+  public void setAuthors(Set<String> authors) {
     this.authors = authors;
   }
 
-  public Set<CommentResponse> getComments() {
+  public Set<CommentDto> getComments() {
     return comments;
   }
 
-  public void setComments(Set<CommentResponse> comments) {
+  public void setComments(Set<CommentDto> comments) {
     this.comments = comments;
   }
 
@@ -108,16 +96,16 @@ public class BookResponse {
     this.genres = genres;
   }
 
-  public void addAuthorResponse(AuthorResponse authorResponse) {
-    this.authors.add(authorResponse);
+  public void addAuthor(String author) {
+    this.authors.add(author);
   }
 
-  public void addRatingResponse(RatingResponse ratingResponse) {
-    this.ratings.add(ratingResponse);
+  public void addRatingResponse(RatingDto ratingDto) {
+    this.ratings.add(ratingDto);
   }
 
-  public void addCommentResponse(CommentResponse commentResponse) {
-    this.comments.add(commentResponse);
+  public void addCommentResponse(CommentDto commentDto) {
+    this.comments.add(commentDto);
   }
 
   public Double getOverallRating() {

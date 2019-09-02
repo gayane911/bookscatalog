@@ -1,22 +1,34 @@
 package com.epam.bookscatalog.service;
 
+import com.epam.bookscatalog.dto.BookDto;
+import com.epam.bookscatalog.elastic.model.BookEs;
+import com.epam.bookscatalog.elastic.repository.BookEsRepository;
 import com.epam.bookscatalog.exception.ResourceNotFoundException;
 import com.epam.bookscatalog.model.Author;
 import com.epam.bookscatalog.model.Book;
 import com.epam.bookscatalog.model.User;
 import com.epam.bookscatalog.payload.BookRequest;
-import com.epam.bookscatalog.payload.BookResponse;
 import com.epam.bookscatalog.repository.AuthorRepository;
 import com.epam.bookscatalog.repository.BookRepository;
 import com.epam.bookscatalog.repository.UserRepository;
-import java.util.ArrayList;
+import com.epam.bookscatalog.util.ModelConverter;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class BookService {
@@ -25,31 +37,81 @@ public class BookService {
   private BookRepository bookRepository;
 
   @Autowired
+  private BookEsRepository bookEsRepository;
+
+  @Autowired
   private AuthorRepository authorRepository;
 
   @Autowired
   private UserRepository userRepository;
 
-  /*@Autowired
-  private VoteRepository voteRepository;
-
-  @Autowired
-  private UserRepository userRepository;*/
-
   private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-  public Set<BookResponse> getAllBooks() {
-    Set<BookResponse> bookResponses = new HashSet<>();
+  public Set<BookDto> getAllBooks() {
+    Set<BookDto> bookResponses = new HashSet<>();
     List<Book> books = bookRepository.findAll();
 
-    books.forEach(book -> {
-      bookResponses.add(book.getBookResponse());
-    });
+    books.forEach(book -> bookResponses.add(ModelConverter.getBookDto(book)));
 
     return bookResponses;
   }
 
-  /*public PagedResponse<BookResponse> getPollsCreatedBy(String username, UserPrincipal currentUser,
+  public Set<BookDto> search(String title, String author, String language, String genre) {
+    Set<BookDto> bookDtos = new HashSet<>();
+    BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+    if (!StringUtils.isEmpty(title)) {
+      boolQuery.must(QueryBuilders.matchQuery("title", title));
+    }
+
+    if (!StringUtils.isEmpty(author)) {
+      boolQuery.must(QueryBuilders.matchQuery("authors", author));
+    }
+
+    if (!StringUtils.isEmpty(language)) {
+      boolQuery.must(QueryBuilders.matchQuery("languages", language));
+    }
+
+    if (!StringUtils.isEmpty(genre)) {
+      boolQuery.must(QueryBuilders.matchQuery("genres", genre));
+    }
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery).build();
+
+    Iterable<BookEs> iterableBooks = bookEsRepository.search(searchQuery);
+    iterableBooks.forEach(bookEs -> bookDtos.add(ModelConverter.getBookDto(bookEs)));
+
+    return bookDtos;
+  }
+
+  public Set<BookDto> getRecentBooks() {
+    Set<BookDto> bookDtos = new HashSet<>();
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withPageable(PageRequest.of(0, 10))
+        .withSort(SortBuilders.fieldSort("creationDate")
+            .order(SortOrder.DESC)).build();
+
+    Iterable<BookEs> iterableBooks = bookEsRepository.search(searchQuery);
+    iterableBooks.forEach(bookEs -> bookDtos.add(ModelConverter.getBookDto(bookEs)));
+    return bookDtos;
+  }
+
+  /*private SearchQuery buildSearchQuery(String title, String author, List<Long> categories, Pageable pageable) {
+    NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+    if (searchTerm != null) {
+      builder.withQuery(
+          new MultiMatchQueryBuilder(title, , "title", "author")
+              .operator(Operator.AND)
+              .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+      );
+    }
+    builder.withPageable(pageable);
+    return builder.build();
+  }*/
+
+  //public Set<BookDto>
+
+  /*public PagedResponse<BookDto> getPollsCreatedBy(String username, UserPrincipal currentUser,
       int page, int size) {
     validatePageNumberAndSize(page, size);
 
@@ -70,7 +132,7 @@ public class BookService {
     Map<Long, Long> choiceVoteCountMap = getChoiceVoteCountMap(pollIds);
     Map<Long, Long> pollUserVoteMap = getPollUserVoteMap(currentUser, pollIds);
 
-    List<BookResponse> pollResponses = polls.map(poll -> {
+    List<BookDto> pollResponses = polls.map(poll -> {
       return ModelMapper.mapPollToPollResponse(poll,
           choiceVoteCountMap,
           user,
@@ -81,7 +143,7 @@ public class BookService {
         polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
   }*/
 
-  /*public PagedResponse<BookResponse> getPollsVotedBy(String username, UserPrincipal currentUser,
+  /*public PagedResponse<BookDto> getPollsVotedBy(String username, UserPrincipal currentUser,
       int page, int size) {
     validatePageNumberAndSize(page, size);
 
@@ -109,7 +171,7 @@ public class BookService {
     Map<Long, Long> pollUserVoteMap = getPollUserVoteMap(currentUser, pollIds);
     Map<Long, User> creatorMap = getPollCreatorMap(polls);
 
-    List<BookResponse> pollResponses = polls.stream().map(poll -> {
+    List<BookDto> pollResponses = polls.stream().map(poll -> {
       return ModelMapper.mapPollToPollResponse(poll,
           choiceVoteCountMap,
           creatorMap.get(poll.getCreatedBy()),
@@ -149,7 +211,13 @@ public class BookService {
     book.setLanguages(bookRequest.getLanguages());
     book.setPublishedDate(bookRequest.getPublishedDate());
 
-    return bookRepository.save(book);
+    Book savedBook = bookRepository.save(book);
+    BookEs bookEs = ModelConverter.getBookEs(savedBook);
+    bookEs.setCreationDate(new Date().getTime());
+
+    bookEsRepository.save(bookEs);
+
+    return savedBook;
   }
 
   public User addToFavorite(Long bookId, Long userId) {
@@ -163,7 +231,7 @@ public class BookService {
     return userRepository.save(user);
   }
 
-  /*public BookResponse getPollById(Long pollId, UserPrincipal currentUser) {
+  /*public BookDto getPollById(Long pollId, UserPrincipal currentUser) {
     Poll poll = pollRepository.findById(pollId).orElseThrow(
         () -> new ResourceNotFoundException("Poll", "id", pollId));
 
@@ -187,7 +255,7 @@ public class BookService {
         creator, userVote != null ? userVote.getChoice().getId() : null);
   }
 
-  public BookResponse castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest,
+  public BookDto castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest,
       UserPrincipal currentUser) {
     Poll poll = pollRepository.findById(pollId)
         .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));

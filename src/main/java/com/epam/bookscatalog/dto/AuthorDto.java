@@ -1,6 +1,6 @@
-package com.epam.bookscatalog.payload;
+package com.epam.bookscatalog.dto;
 
-public class AuthorResponse {
+public class AuthorDto {
 
   private Long id;
   private String fullName;

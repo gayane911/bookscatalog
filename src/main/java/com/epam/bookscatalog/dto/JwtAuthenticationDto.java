@@ -1,11 +1,11 @@
-package com.epam.bookscatalog.payload;
+package com.epam.bookscatalog.dto;
 
-public class JwtAuthenticationResponse {
+public class JwtAuthenticationDto {
 
   private String accessToken;
   private String tokenType = "Bearer";
 
-  public JwtAuthenticationResponse(String accessToken) {
+  public JwtAuthenticationDto(String accessToken) {
     this.accessToken = accessToken;
   }
 

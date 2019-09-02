@@ -1,11 +1,11 @@
-package com.epam.bookscatalog.payload;
+package com.epam.bookscatalog.dto;
 
-public class ApiResponse {
+public class ApiMessageDto {
 
   private Boolean success;
   private String message;
 
-  public ApiResponse(Boolean success, String message) {
+  public ApiMessageDto(Boolean success, String message) {
     this.success = success;
     this.message = message;
   }

@@ -1,11 +1,9 @@
 package com.epam.bookscatalog.model;
 
 import com.epam.bookscatalog.model.audit.DateAudit;
-import com.epam.bookscatalog.payload.BookResponse;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -177,31 +175,5 @@ and etc.), Author (id, name and etc.).*/
       }
       overallRating = ratingSum / ratings.size();
     }
-  }
-
-  public BookResponse getBookResponse() {
-    BookResponse bookResponse = new BookResponse();
-    bookResponse.setId(getId());
-    bookResponse.setTitle(getTitle());
-    bookResponse.setIsbn(getIsbn());
-
-    for (Comment comment : getComments()) {
-      bookResponse.addCommentResponse(comment.getCommentRespopnse());
-    }
-
-    for (Rating rating : getRatings()) {
-      bookResponse.addRatingResponse(rating.getRatingResponse());
-    }
-    bookResponse.setOverallRating(getOverallRating());
-    bookResponse.setPublishedDate(getPublishedDate());
-
-    for (Author ar : getAuthors()) {
-      bookResponse.addAuthorResponse(ar.getAuthorResponse());
-    }
-
-    bookResponse.setGenres(getGenres());
-    bookResponse.setLanguages(getLanguages());
-
-    return bookResponse;
   }
 }

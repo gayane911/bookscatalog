@@ -1,9 +1,7 @@
 package com.epam.bookscatalog.service;
 
 import com.epam.bookscatalog.model.Author;
-import com.epam.bookscatalog.model.Book;
 import com.epam.bookscatalog.payload.AuthorRequest;
-import com.epam.bookscatalog.payload.BookRequest;
 import com.epam.bookscatalog.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,4 @@ public class AuthorService {
     author.setFullName(authorRequest.getFullName());
     return authorRepository.save(author);
   }
-
-
 }

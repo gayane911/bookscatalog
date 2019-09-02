@@ -4,15 +4,13 @@ import com.epam.bookscatalog.exception.AppException;
 import com.epam.bookscatalog.model.Role;
 import com.epam.bookscatalog.model.RoleName;
 import com.epam.bookscatalog.model.User;
-import com.epam.bookscatalog.payload.ApiResponse;
-import com.epam.bookscatalog.payload.JwtAuthenticationResponse;
+import com.epam.bookscatalog.dto.ApiMessageDto;
+import com.epam.bookscatalog.dto.JwtAuthenticationDto;
 import com.epam.bookscatalog.payload.LoginRequest;
 import com.epam.bookscatalog.payload.SignUpRequest;
 import com.epam.bookscatalog.repository.RoleRepository;
 import com.epam.bookscatalog.repository.UserRepository;
 import com.epam.bookscatalog.security.JwtTokenProvider;
-import java.net.URI;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -51,7 +48,7 @@ public class AuthController {
   JwtTokenProvider tokenProvider;
 
   @PostMapping("/signin")
-  public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<JwtAuthenticationDto> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -63,18 +60,18 @@ public class AuthController {
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     String jwt = tokenProvider.generateToken(authentication);
-    return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+    return ResponseEntity.ok(new JwtAuthenticationDto(jwt));
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+  public ResponseEntity<ApiMessageDto> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-      return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+      return new ResponseEntity(new ApiMessageDto(false, "Username is already taken!"),
           HttpStatus.BAD_REQUEST);
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-      return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+      return new ResponseEntity(new ApiMessageDto(false, "Email Address already in use!"),
           HttpStatus.BAD_REQUEST);
     }
 
@@ -107,6 +104,6 @@ public class AuthController {
         .buildAndExpand(result.getUsername()).toUri();*/
 
     return ResponseEntity/*.created(location)*/
-        .ok(new ApiResponse(true, "User registered successfully"));
+        .ok(new ApiMessageDto(true, "User registered successfully"));
   }
 }

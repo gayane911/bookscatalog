@@ -5,8 +5,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+@EnableElasticsearchRepositories("com.epam.bookscatalog.elastic.repository")
 @SpringBootApplication
 @EntityScan(basePackageClasses = {
     BookscatalogApplication.class,
@@ -24,3 +26,4 @@ public class BookscatalogApplication {
   }
 
 }
+

@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-  Optional<Book> findByTitle(String title);
+ /* Optional<Book> findByTitle(String title);
 
   Optional<Book> findByIsbn(String isbn);
 
   Optional<Book> findByAuthors_fullName(String author);
 
-  Boolean existsByIsbn(String isbn);
+  Boolean existsByIsbn(String isbn);*/
 
 }

@@ -1,10 +1,12 @@
-package com.epam.bookscatalog.payload;
+package com.epam.bookscatalog.dto;
 
-public class CommentResponse {
+import com.epam.bookscatalog.model.RatingName;
+
+public class RatingDto {
 
   private Long bookId;
   private Long userId;
-  private String text;
+  private RatingName rating;
 
   public Long getBookId() {
     return bookId;
@@ -22,11 +24,11 @@ public class CommentResponse {
     this.userId = userId;
   }
 
-  public String getText() {
-    return text;
+  public RatingName getRating() {
+    return rating;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public void setRating(RatingName rating) {
+    this.rating = rating;
   }
 }

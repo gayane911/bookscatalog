@@ -1,20 +1,11 @@
 package com.epam.bookscatalog.model;
 
-import com.epam.bookscatalog.payload.RatingResponse;
-import javax.persistence.Embeddable;
+import com.epam.bookscatalog.dto.RatingDto;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PostLoad;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -95,11 +86,11 @@ public class Rating {
     }
   }*/
 
-  public RatingResponse getRatingResponse() {
-    RatingResponse ratingResponse = new RatingResponse();
-    ratingResponse.setBookId(ratingIdentity.getBookId());
-    ratingResponse.setUserId(ratingIdentity.getUserId());
-    ratingResponse.setRating(getRating());
-    return ratingResponse;
+  public RatingDto getRatingResponse() {
+    RatingDto ratingDto = new RatingDto();
+    ratingDto.setBookId(ratingIdentity.getBookId());
+    ratingDto.setUserId(ratingIdentity.getUserId());
+    ratingDto.setRating(getRating());
+    return ratingDto;
   }
 }
