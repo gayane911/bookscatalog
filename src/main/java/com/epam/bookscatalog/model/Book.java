@@ -32,9 +32,6 @@ import org.hibernate.annotations.NaturalId;
 })
 public class Book extends DateAudit {
 
-  /*(id, ISBN, name, published date, comments, rating , genres, languages
-and etc.), Author (id, name and etc.).*/
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Book model for elastic search
  */
-@Document(indexName = "booksindex", type="books")
+@Document(indexName = "booksindex", type = "books")
 public class BookEs implements Serializable {
 
   @Id
@@ -24,16 +24,16 @@ public class BookEs implements Serializable {
   @Field(type = FieldType.Text, store = true)
   private String title;
 
-  @Field( type = FieldType.Text, store = true)
+  @Field(type = FieldType.Text, store = true)
   private Set<String> authors = new HashSet<>();
 
-  @Field( type = FieldType.Text, store = true)
+  @Field(type = FieldType.Text, store = true)
   private Set<String> genres = new HashSet<>();
 
-  @Field( type = FieldType.Text, store = true)
+  @Field(type = FieldType.Text, store = true)
   private Set<String> languages = new HashSet<>();
 
-  @Field (type = FieldType.Long, store = true)
+  @Field(type = FieldType.Long, store = true)
   private Long creationDate;
 
   public Long getId() {

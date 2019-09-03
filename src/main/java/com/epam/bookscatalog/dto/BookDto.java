@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BookDto {
+
   private Long id;
   private String isbn;
   private String title;
@@ -47,14 +48,6 @@ public class BookDto {
   public void setPublishedDate(Date publishedDate) {
     this.publishedDate = publishedDate;
   }
-
-  /*public int getRating() {
-    return rating;
-  }
-
-  public void setRating(int rating) {
-    this.rating = rating;
-  }*/
 
   public Set<RatingDto> getRatings() {
     return ratings;

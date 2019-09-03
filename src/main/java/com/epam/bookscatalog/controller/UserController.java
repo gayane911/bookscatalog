@@ -21,8 +21,6 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
   @GetMapping("/user/checkUsernameAvailability")
   public ResponseEntity<UserIdentityAvailability> checkUsernameAvailability(
       @RequestParam(value = "username") String username) {

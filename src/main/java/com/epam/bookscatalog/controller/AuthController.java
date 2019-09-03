@@ -1,11 +1,11 @@
 package com.epam.bookscatalog.controller;
 
+import com.epam.bookscatalog.dto.ApiMessageDto;
+import com.epam.bookscatalog.dto.JwtAuthenticationDto;
 import com.epam.bookscatalog.exception.AppException;
 import com.epam.bookscatalog.model.Role;
 import com.epam.bookscatalog.model.RoleName;
 import com.epam.bookscatalog.model.User;
-import com.epam.bookscatalog.dto.ApiMessageDto;
-import com.epam.bookscatalog.dto.JwtAuthenticationDto;
 import com.epam.bookscatalog.payload.LoginRequest;
 import com.epam.bookscatalog.payload.SignUpRequest;
 import com.epam.bookscatalog.repository.RoleRepository;
@@ -96,14 +96,9 @@ public class AuthController {
     }
 
     user.setRoles(userRoles);
+    userRepository.save(user);
 
-    User result = userRepository.save(user);
-
-    /*URI location = ServletUriComponentsBuilder
-        .fromCurrentContextPath().path("/api/users/{username}")
-        .buildAndExpand(result.getUsername()).toUri();*/
-
-    return ResponseEntity/*.created(location)*/
+    return ResponseEntity
         .ok(new ApiMessageDto(true, "User registered successfully"));
   }
 }

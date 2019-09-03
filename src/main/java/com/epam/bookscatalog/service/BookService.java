@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
@@ -96,7 +95,8 @@ public class BookService {
     return bookDtos;
   }
 
-  /*private SearchQuery buildSearchQuery(String title, String author, List<Long> categories, Pageable pageable) {
+  /*private SearchQuery buildSearchQuery(String title, String author, List<Long> categories,
+  Pageable pageable) {
     NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
     if (searchTerm != null) {
       builder.withQuery(

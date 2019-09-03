@@ -12,16 +12,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "ratings")
 public class Rating {
 
-  /*@Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;*/
-
-  /*@NotNull
-  private Long userId;
-
-  @NotNull
-  private Long bookId;*/
-
   @EmbeddedId
   private RatingIdentity ratingIdentity;
 
@@ -30,30 +20,6 @@ public class Rating {
 
   @Transient
   private RatingName rating;
-
-  /*public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }*/
-
-  /*public Long getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
-
-  public Long getBookId() {
-    return bookId;
-  }
-
-  public void setBookId(Long bookId) {
-    this.bookId = bookId;
-  }*/
 
   public RatingIdentity getRatingIdentity() {
     return ratingIdentity;
@@ -78,13 +44,6 @@ public class Rating {
   void fillTransient() {
     this.rating = RatingName.getByValue(ratingValue);
   }
-
-  /*@PrePersist
-  void fillPersistent() {
-    if (rating != null) {
-      this.ratingValue = rating.getValue();
-    }
-  }*/
 
   public RatingDto getRatingResponse() {
     RatingDto ratingDto = new RatingDto();

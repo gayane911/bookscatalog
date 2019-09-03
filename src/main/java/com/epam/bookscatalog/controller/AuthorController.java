@@ -1,9 +1,7 @@
 package com.epam.bookscatalog.controller;
 
-import com.epam.bookscatalog.model.Author;
 import com.epam.bookscatalog.dto.ApiMessageDto;
 import com.epam.bookscatalog.payload.AuthorRequest;
-import com.epam.bookscatalog.repository.BookRepository;
 import com.epam.bookscatalog.service.AuthorService;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -21,90 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorController {
 
   @Autowired
-  private BookRepository bookRepository;
-
-  //@Autowired
-  //private PollRepository pollRepository;
-
-  //@Autowired
-  //private VoteRepository voteRepository;
-
-  @Autowired
   private AuthorService authorService;
 
-  private static final Logger logger = LoggerFactory.getLogger(AuthorController.class);
-
-
   @PostMapping("/authors")
-  //@PreAuthorize("hasRole('USER')")
   @RolesAllowed("ROLE_ADMIN")
-  public ResponseEntity<ApiMessageDto> createAuthor(@Valid @RequestBody AuthorRequest authorRequest) {
-    Author author = authorService.createAuthor(authorRequest);
-
-    /*URI location = ServletUriComponentsBuilder
-        .fromCurrentRequest().path("/{author}")
-        .buildAndExpand(author.getId()).toUri();*/
-
-    return ResponseEntity/*.created(location)*/
-        .ok(new ApiMessageDto(true, "Author Created Successfully"));
+  public ResponseEntity<ApiMessageDto> createAuthor(
+      @Valid @RequestBody AuthorRequest authorRequest) {
+    authorService.createAuthor(authorRequest);
+    return ResponseEntity.ok(new ApiMessageDto(true, "Author Created Successfully"));
   }
-
-  /*@GetMapping("/user/me")
-  //@PreAuthorize("hasRole('READER')")
-  @RolesAllowed({"ROLE_ADMIN", "ROLE_READER"})
-  public UserSummaryDto getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-    UserSummaryDto userSummary = new UserSummaryDto(currentUser.getId(), currentUser.getUsername(),
-        currentUser.getName(), currentUser.getRoles());
-    return userSummary;
-  }
-
-  @GetMapping("/user/checkUsernameAvailability")
-  public UserIdentityAvailability checkUsernameAvailability(
-      @RequestParam(value = "username") String username) {
-    Boolean isAvailable = !userRepository.existsByUsername(username);
-    return new UserIdentityAvailability(isAvailable);
-  }
-
-  @GetMapping("/user/checkEmailAvailability")
-  public UserIdentityAvailability checkEmailAvailability(
-      @RequestParam(value = "email") String email) {
-    Boolean isAvailable = !userRepository.existsByEmail(email);
-    return new UserIdentityAvailability(isAvailable);
-  }
-
-  @GetMapping("/users/{username}")
-  //@PreAuthorize("hasRole('ROLE_READER')")
-  @RolesAllowed("ROLE_ADMIN")
-  public UserProfileDto getUserProfile(@CurrentUser UserPrincipal currentUser, @PathVariable(value = "username") String username) {
-    User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-
-    //long pollCount = pollRepository.countByCreatedBy(user.getId());
-    //long voteCount = voteRepository.countByUserId(user.getId());
-
-    UserProfileDto userProfile = new UserProfileDto(user.getId(), user.getUsername(), user.getName(),
-        user.getCreatedAt()*//*, pollCount, voteCount*//*);
-
-    return userProfile;
-  }*/
-
- /* @GetMapping("/users/{username}/polls")
-  public PagedResponse<BookDto> getPollsCreatedBy(
-      @PathVariable(value = "username") String username,
-      @CurrentUser UserPrincipal currentUser,
-      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-      @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-    return pollService.getPollsCreatedBy(username, currentUser, page, size);
-  }*/
-
-
-  /*@GetMapping("/users/{username}/votes")
-  public PagedResponse<BookDto> getPollsVotedBy(
-      @PathVariable(value = "username") String username,
-      @CurrentUser UserPrincipal currentUser,
-      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-      @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-    return pollService.getPollsVotedBy(username, currentUser, page, size);
-  }
-*/
 }

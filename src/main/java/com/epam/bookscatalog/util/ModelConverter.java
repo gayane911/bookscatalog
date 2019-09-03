@@ -80,6 +80,12 @@ public class ModelConverter {
     return bookEs;
   }
 
+  /**
+   * Converts User model to UserProfileDto
+   *
+   * @param user that should be converted
+   * @return instance of UserProfileDto
+   */
   public static UserProfileDto getUserProfileDto(User user) {
     UserProfileDto userProfileDto = new UserProfileDto();
     userProfileDto.setId(user.getId());
@@ -93,6 +99,4 @@ public class ModelConverter {
 
     return userProfileDto;
   }
-
-
 }

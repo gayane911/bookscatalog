@@ -24,6 +24,4 @@ public class BookscatalogApplication {
   public static void main(String[] args) {
     SpringApplication.run(BookscatalogApplication.class, args);
   }
-
 }
-

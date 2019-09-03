@@ -8,7 +8,7 @@ public enum RatingName {
   RATING_4(4),
   RATING_5(5);
 
-  RatingName(int value){
+  RatingName(int value) {
     this.value = value;
   }
 

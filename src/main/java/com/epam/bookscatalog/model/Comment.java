@@ -1,7 +1,7 @@
 package com.epam.bookscatalog.model;
 
-import com.epam.bookscatalog.model.audit.DateAudit;
 import com.epam.bookscatalog.dto.CommentDto;
+import com.epam.bookscatalog.model.audit.DateAudit;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

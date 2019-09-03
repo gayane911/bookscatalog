@@ -15,14 +15,8 @@ public class RatingService {
   private RatingRepository ratingRepository;
 
   public Rating rate(RatingRequest ratingRequest, Long userId) {
-    /*Author author = new Author();
-    author.setFullName(authorRequest.getFullName());
-    return authorRepository.save(author);*/
-
     Rating rating = new Rating();
     rating.setRating(RatingName.getByValue(ratingRequest.getRating()));
-    //rating.setRatingValue(ratingRequest.getRating());
-    //rating.setRating(RatingName.RATING_5);
     RatingIdentity ratingIdentity = new RatingIdentity();
     ratingIdentity.setBookId(ratingRequest.getBookId());
     ratingIdentity.setUserId(userId);
@@ -32,6 +26,4 @@ public class RatingService {
 
     return rating;
   }
-
-
 }
