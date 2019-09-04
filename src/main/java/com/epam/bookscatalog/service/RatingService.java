@@ -21,7 +21,6 @@ public class RatingService {
     ratingIdentity.setBookId(ratingRequest.getBookId());
     ratingIdentity.setUserId(userId);
     rating.setRatingIdentity(ratingIdentity);
-
     ratingRepository.save(rating);
 
     return rating;

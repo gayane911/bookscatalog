@@ -27,5 +27,4 @@ public class UserService {
         .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
     return ModelConverter.getUserProfileDto(user);
   }
-
 }
