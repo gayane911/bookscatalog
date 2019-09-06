@@ -1,0 +1,33 @@
+{
+	"variables": [],
+	"info": {
+		"name": "es-bookscatalog",
+		"_postman_id": "5dbf5fd6-fff5-0b61-7d04-6a6e1f9ef5ac",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get books",
+			"request": {
+				"url": "localhost:9200/booksindex/book/_search",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get books copy",
+			"request": {
+				"url": "localhost:9200/books_index",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

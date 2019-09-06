@@ -29,3 +29,16 @@
         INSERT INTO roles(name) VALUES('ROLE_ADMIN');
         
 API is now ready to answer your requests.
+
+
+**For testing**
+
+1. Open `Postman` application.
+
+2. Import `bookscatalog.postman_collection.json` and `es-bookscatalog.postman_collection.json` collections and `bookscatalog.postman_environment.json` environment file (you can find this files in root folder of the project).
+
+3. Sign up and sign in to Books catalog. Make sure to send JWT token as request Authorization header with each request to API - in following format:
+
+        Barear: {token}
+        
+4. For sending token with each request just change the value of `token` field in environment that you imported to Postman.

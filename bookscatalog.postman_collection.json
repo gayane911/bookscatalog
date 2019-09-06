@@ -1,0 +1,296 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bookscatalog",
+		"_postman_id": "cb1d780a-fbae-3ad9-3c16-cd2b91a87e22",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sign up",
+			"request": {
+				"url": "{{url}}/api/auth/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane_reader\",\n\t\"email\": \"dzvakeryan.gayane@gmail.com\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create book",
+			"request": {
+				"url": "{{url}}/api/books",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"isbn\" : \"isbn900-7768\",\n\t\"title\" : \"Dom\",\n\t\"rating\": 5,\n\t\"publishedDate\": \"2008-10-05\",\n\t\"authors\": [\"Mariam Petrosyan\"],\n\t\"genres\": [\"Fantasy\"],\n\t\"languages\": [\"Russian\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add to favorite",
+			"request": {
+				"url": "{{url}}/api/books/favorite/2",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"isbn\" : \"isbn900-7767\",\n\t\"title\" : \"Marsh\",\n\t\"rating\": 5,\n\t\"publishedDate\": \"05.10.1961\",\n\t\"authors\": [\"Sergey Dovlatov\"],\n\t\"genres\": [\"Biography\"],\n\t\"languages\": [\"Russian\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create author",
+			"request": {
+				"url": "{{url}}/api/authors",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fullName\" : \"Mariam Petrosyan\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "rate book",
+			"request": {
+				"url": "{{url}}/api/rating",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bookId\" : 2,\n\t\"rating\" : 5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add comment",
+			"request": {
+				"url": "{{url}}/api/rating",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bookId\" : 2,\n\t\"rating\" : 5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "sign up admin",
+			"request": {
+				"url": "{{url}}/api/auth/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane911\",\n\t\"email\": \"gayane911@gmail.com\",\n\t\"password\": \"gayane\",\n\t\"roles\": [\"ROLE_ADMIN\", \"ROLE_READER\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "user profile",
+			"request": {
+				"url": "{{url}}/api/users/gayane911",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane911\",\n\t\"email\": \"gayane911@gmail.com\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "all books",
+			"request": {
+				"url": "{{url}}/api/books",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane911\",\n\t\"email\": \"gayane911@gmail.com\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "search book",
+			"request": {
+				"url": "{{url}}/api/books/search/Grozovoy pereval",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane911\",\n\t\"email\": \"gayane911@gmail.com\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "recent books",
+			"request": {
+				"url": "{{url}}/api/books/search/recent",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Gayane\",\n\t\"username\" : \"gayane911\",\n\t\"email\": \"gayane911@gmail.com\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "sign in",
+			"request": {
+				"url": "{{url}}/api/auth/signin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"usernameOrEmail\": \"gayane911\",\n\t\"password\": \"gayane\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
